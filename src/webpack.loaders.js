@@ -1,4 +1,5 @@
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
+const autoprefixer = require('autoprefixer');
 
 var loaders = {}
 

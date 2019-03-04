@@ -23,8 +23,8 @@ var configWebpack = {
         ],
         extensions: ['.js', '.vue'],
         alias: {
-            components: path.resolve(__dirname + '/src/components'),
-            statics: path.resolve(__dirname + '/src/statics')
+            components: cwd + '/src/components',
+            statics: cwd + '/src/statics'
         }
     },
 
@@ -87,13 +87,11 @@ gulp.task('webpack', function (cb) {
     return gulp
         .src([__dirname + '/emptyEntry.js'])
         .pipe(named())
-        .pipe(webpackGulp(configWebpack, null, function () {
-            if (localize) {
-                setTimeout(function () {
-                    copy(dist + '/app.js', dist + '/assets', './assets')
-                    copy(dist + '/index.html', dist + '/assets', './assets')
-                }, 10)
-            }
+        .pipe(!localize?webpackGulp(configWebpack):webpackGulp(configWebpack, null, function () {
+            setTimeout(function () {
+                copy(dist + '/app.js', dist + '/assets', './assets')
+                copy(dist + '/index.html', dist + '/assets', './assets')
+            }, 10)
         }))
         .pipe(gulp.dest(dist))
 })
