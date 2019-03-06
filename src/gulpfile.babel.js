@@ -55,7 +55,7 @@ if (build) {
 }
 
 gulp.task('connect', function (cb) {
-    var proxyConfig = nocoConfig.proxy
+    var proxyConfig = nocoConfig.proxy || []
 
     getValidPort(8000).then(function (port) {
         gulpConnect.server({
