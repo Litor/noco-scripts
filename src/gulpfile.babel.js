@@ -8,6 +8,7 @@ import gulpConnect from 'gulp-connect'
 import proxy from 'http-proxy-middleware'
 import {nocoConfig, build, localize, cwd} from './getArgs'
 import UglifyJsPlugin from 'uglifyjs-webpack-plugin'
+import {getValidPort} from './utils'
 
 var copy = require('lit-copy-resource')
 
@@ -56,29 +57,31 @@ if (build) {
 gulp.task('connect', function (cb) {
     var proxyConfig = nocoConfig.proxy
 
-    gulpConnect.server({
-        host: '0.0.0.0',
-        root: dist,
-        port: nocoConfig.port || '8080',
-        livereload: true,
-        middleware: function (connect, opt) {
-            let proxys = []
+    getValidPort(8000).then(function (port) {
+        gulpConnect.server({
+            host: '0.0.0.0',
+            root: dist,
+            port: nocoConfig.port || port ||  '8080',
+            livereload: true,
+            middleware: function (connect, opt) {
+                let proxys = []
 
-            if (proxy) {
-                for (let i = 0; i < proxyConfig.length; i++) {
-                    proxys.push(proxy(proxyConfig[i].source, {
-                        target: proxyConfig[i].target,
-                        changeOrigin: true,
-                        secure: false,
-                        headers: {
-                            Connection: 'keep-alive'
-                        }
-                    }))
+                if (proxy) {
+                    for (let i = 0; i < proxyConfig.length; i++) {
+                        proxys.push(proxy(proxyConfig[i].source, {
+                            target: proxyConfig[i].target,
+                            changeOrigin: true,
+                            secure: false,
+                            headers: {
+                                Connection: 'keep-alive'
+                            }
+                        }))
+                    }
                 }
-            }
 
-            return proxys
-        }
+                return proxys
+            }
+        })
     })
 })
 
@@ -97,3 +100,5 @@ gulp.task('webpack', function (cb) {
 })
 
 gulp.task('default', gulp.series(gulp.parallel(...(build || localize) ? ['webpack'] : ['webpack', 'connect'])))
+
+

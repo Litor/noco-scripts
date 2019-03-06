@@ -138,9 +138,11 @@ loaders.url = {
 loaders.svg = {
     test: /\.svg$/,
     include: /images/,
-    use: ['svg-sprite?' + JSON.stringify({
-        name: '[name]'
-    })]
+    loader:'svg-sprite-loader',
+    query: {
+        limit: 1 * 1024,
+        name: 'statics/images/[path][name].[ext]',
+    },
 }
 
 var usedLoaders = [
