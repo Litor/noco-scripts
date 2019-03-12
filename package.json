@@ -1,6 +1,6 @@
 {
   "name": "noco-scripts",
-  "version": "1.0.25",
+  "version": "1.0.32",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -15,6 +15,8 @@
     "babel-cli": "^6.26.0"
   },
   "dependencies": {
+    "@types/lodash": "^4.14.123",
+    "@types/node": "^11.11.1",
     "ajv": "^6.4.0",
     "autoprefixer": "^6.7.7",
     "babel-helper-vue-jsx-merge-props": "^2.0.2",
@@ -68,9 +70,11 @@
     "url-loader": "^1.1.2",
     "uuid": "^3.2.1",
     "vinyl-named": "^1.1.0",
+    "vue": "^2.6.8",
     "vue-loader": "^15.7.0",
     "vue-router": "^2.8.1",
     "vue-simple-uploader": "^0.5.4",
+    "vue-template-compiler": "^2.6.8",
     "vuedraggable": "^2.16.0",
     "webpack-stream": "^5.2.1"
   }
